@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solara – Calming Sounds</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff9b0, #fff3a7);
+      font-family: 'Patrick Hand', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: #5a4d00;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bubbles-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      filter: blur(8px);
+      animation: floatAround linear infinite;
+    }
+
+    .bubble.yellow { background-color: #ebbe0b; }
+    .bubble.green { background-color: #80a808; }
+
+    @keyframes floatAround {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(100px, -150px) scale(1.2); }
+      100% { transform: translate(-50px, 100px) scale(1); }
+    }
+
+    .logo-link {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .logo {
+      height: 90px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    header {
+      margin-top: 25px;
+      margin-bottom: 30px;
+      font-size: 2.8em;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(255 255 255 / 0.7);
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 340px;
+      z-index: 10;
+      margin-bottom: 60px;
+    }
+
+    .menu button {
+      padding: 16px 24px;
+      font-size: 1.3em;
+      border-radius: 16px;
+      background-color: #fff9d6;
+      color: #5a4d00;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Patrick Hand', cursive;
+      border: 2px dashed #FFD580;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .menu button:hover {
+      background-color: #ffe17b;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+    }
+
+    .menu button:active {
+      transform: translateY(0);
+    }
+
+    audio {
+      display: none;
+    }
+
+    .back-button {
+      margin-top: auto;
+      margin-bottom: 40px;
+      font-size: 1.2em;
+      background: #fff9d6;
+      border: 2px dashed #FFD580;
+      border-radius: 16px;
+      color: #5a4d00;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-family: 'Patrick Hand', cursive;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-button:hover {
+      background-color: #ffe17b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 400px) {
+      .menu {
+        width: 90vw;
+        max-width: 300px;
+        gap: 15px;
+      }
+      header {
+        font-size: 2.2em;
+      }
+      .menu button {
+        font-size: 1.2em;
+        padding: 14px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="main.html" class="logo-link" aria-label="Back to home">
+  <img src="solara-logo.png" alt="Solara Logo" class="logo" />
+</a>
+
+<header>Choose a Calming Sound</header>
+
+<div class="menu">
+  <button onclick="playSound('ocean')">🌊 Ocean Waves</button>
+  <button onclick="playSound('rain')">🌧️ Rainfall</button>
+  <button onclick="playSound('Nature')">🌿 Nature Sounds</button>
+  <button onclick="playSound('hum')">🌸 Soothing Hum</button>
+  <button onclick="stopAllSounds()">⏹️ Stop All</button>
+</div>
+
+<audio id="ocean" loop src="ocean.mp3"></audio>
+<audio id="rain" loop src="rain.mp3"></audio>
+<audio id="Nature" loop src="nature.mp3"></audio>
+<audio id="hum" loop src="soothing-hum.mp3"></audio>
+
+<button class="back-button" onclick="navigateToMain()">
+  <span style="font-size: 1.3em;">←</span> Back to Main
+</button>
+
+<div class="bubbles-container" id="bubbles-container"></div>
+
+<script>
+  // Store currently playing sound in localStorage
+  let currentlyPlaying = null;
+
+  const sounds = ['ocean', 'rain', 'Nature', 'hum'];
+
+  function playSound(id) {
+    stopAllSounds();
+    const audio = document.getElementById(id);
+    if (audio) {
+      audio.play()
+        .then(() => {
+          currentlyPlaying = id;
+          localStorage.setItem('currentSound', id);
+        })
+        .catch(e => console.error("Audio playback failed:", e));
+    }
+  }
+
+  function stopAllSounds() {
+    sounds.forEach(id => {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
+    currentlyPlaying = null;
+    localStorage.removeItem('currentSound');
+  }
+
+  function navigateToMain() {
+    window.location.href = "main.html";
+  }
+
+  // Restore playing sound when page loads
+  window.addEventListener('load', () => {
+    const savedSound = localStorage.getItem('currentSound');
+    if (savedSound) {
+      playSound(savedSound);
+    }
+  });
+
+  // Bubbles animation
+  const container = document.getElementById('bubbles-container');
+  const colors = ['yellow', 'green'];
+  const bubbleCount = 20;
+
+  for (let i = 0; i < bubbleCount; i++) {
+    const bubble = document.createElement('div');
+    const size = Math.random() * 80 + 20;
+    const delay = Math.random() * 20;
+    const duration = Math.random() * 20 + 15;
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    bubble.classList.add('bubble', color);
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.top = `${top}%`;
+    bubble.style.left = `${left}%`;
+    bubble.style.animationDuration = `${duration}s`;
+    bubble.style.animationDelay = `${delay}s`;
+
+    container.appendChild(bubble);
+  }
+</script>
+</body>
+</html>

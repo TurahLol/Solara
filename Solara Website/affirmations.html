@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solara – Affirmations</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #FFFBEF;
+      color: #4B4B4B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-top: 40px;
+      color: #FFB84D;
+    }
+
+    .affirmation-box {
+      background-color: #fff9d6;
+      border: 2px dashed #FFD580;
+      border-radius: 16px;
+      padding: 30px;
+      margin: 20px;
+      max-width: 600px;
+      font-size: 1.5em;
+      line-height: 1.6;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background-color: #FFE17B;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #5E4B00;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #ffd966;
+    }
+
+    .logo-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .logo {
+      height: 100px;
+      cursor: pointer;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    /* NEW BACK BUTTON STYLE TO MATCH WELCOME PAGE */
+    .back-button {
+      position: relative;
+      padding: 18px 40px;
+      font-size: 1.4em;
+      background-color: #fff9d6;
+      color: #5a4d00;
+      border: 2px dashed #FFD580;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Patrick Hand', cursive;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-top: 20px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-button:hover {
+      background-color: #ffe17b;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <a href="index.html" class="logo-link">
+    <img src="solara-logo.png" alt="Solara Logo" class="logo" />
+  </a>
+
+  <h1>Daily Affirmation</h1>
+
+  <div class="affirmation-box" id="affirmation">
+    You are safe. You are grounded. You are loved.
+  </div>
+
+  <div class="button-container">
+    <button onclick="showAffirmation()">🌻 New Affirmation</button>
+    <a href="main.html" class="back-button">← Back to Main</a>
+  </div>
+
+  <script>
+    const affirmations = [
+      "You are safe. You are grounded. You are loved.",
+      "You are doing the best you can, and that is enough.",
+      "You are worthy of love, rest, and healing.",
+      "It's okay to take things one breath at a time.",
+      "You have survived 100% of your hardest days.",
+      "You are not behind. You are exactly where you need to be.",
+      "Even small steps forward are progress.",
+      "You are more than your productivity.",
+      "Your softness is your strength.",
+      "You bring light just by being here.",
+      "You are allowed to rest without guilt.",
+      "You are a work in progress and a masterpiece at the same time.",
+      "You are growing even when it doesn't feel like it.",
+      "You deserve peace.",
+      "You are loved more than you know.",
+      "It's okay to ask for help.",
+      "You are not a burden.",
+      "You are allowed to take up space.",
+      "You are doing better than you think.",
+      "Healing is not linear, and that's okay.",
+      "You are not your mistakes.",
+      "Your feelings are valid.",
+      "You are doing enough.",
+      "You radiate warmth and kindness.",
+      "You are exactly who you need to be right now.",
+      "Every day is a fresh start.",
+      "You can do hard things.",
+      "You are allowed to grow and change.",
+      "There is beauty in your journey.",
+      "You are stronger than you feel.",
+      "You are a light in this world.",
+      "You are gentle and powerful at the same time.",
+      "Your voice matters.",
+      "You make the world a better place.",
+      "Peace begins with you.",
+      "You are not too much. You are enough.",
+      "There is nothing wrong with needing rest.",
+      "Your presence is a gift.",
+      "You are allowed to feel everything.",
+      "It's okay to slow down.",
+      "You belong here.",
+      "You are never alone.",
+      "You are growing through what you're going through.",
+      "It's okay to let go of what no longer serves you.",
+      "You have the power to create change.",
+      "You are capable of amazing things.",
+      "You deserve all the love you give to others.",
+      "You are beautifully human.",
+      "You are still worthy even on your worst days.",
+      "Your inner peace matters.",
+      "You are magic in motion."
+    ];
+
+    function showAffirmation() {
+      const box = document.getElementById("affirmation");
+      const randomIndex = Math.floor(Math.random() * affirmations.length);
+      box.textContent = affirmations[randomIndex];
+    }
+  </script>
+</body>
+</html>
