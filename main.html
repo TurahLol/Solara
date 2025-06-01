@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solara – Choose an Activity</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Patrick+Hand&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff9b0, #fff3a7);
+      font-family: 'Patrick Hand', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: #5a4d00;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Bubbles container behind all content */
+    .bubbles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      filter: blur(8px);
+      animation: floatAround linear infinite;
+    }
+
+    .bubble.yellow {
+      background-color: #ebbe0b;
+    }
+
+    .bubble.green {
+      background-color: #80a808;
+    }
+
+    @keyframes floatAround {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(100px, -150px) scale(1.2);
+      }
+      100% {
+        transform: translate(-50px, 100px) scale(1);
+      }
+    }
+
+    /* Logo & header */
+    .logo-link {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      text-decoration: none;
+      filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.15));
+    }
+
+    .logo {
+      height: 90px;
+      width: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 10;
+      position: fixed;
+      top: 15px;
+      left: 20px;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    header {
+      margin-top: 25px;
+      margin-bottom: 40px;
+      font-size: 3em;
+      font-weight: 700;
+      color: #7f6e00;
+      text-shadow: 1px 1px 4px rgba(255 255 255 / 0.7);
+      user-select: none;
+      z-index: 10;
+      position: relative;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Updated Menu container to match affirmation style */
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 340px;
+      z-index: 10;
+      margin-bottom: 100px;
+    }
+
+    .menu button {
+      position: relative;
+      padding: 18px 30px;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 16px;
+      background-color: #fff9d6;
+      color: #5a4d00;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      user-select: none;
+      text-align: center;
+      border: 2px dashed #FFD580;
+      transition: all 0.3s ease;
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    .menu button:hover {
+      background-color: #ffe17b;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+    }
+
+    .menu button:active {
+      transform: translateY(0);
+    }
+
+    /* Button icons */
+    .menu button::after {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      margin-left: 10px;
+      vertical-align: middle;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .menu button:nth-child(1)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.522 4.82 3.889 6.115l-.78 2.77h11.782l-.78-2.77C19.478 14.935 21 12.672 21 10.115 21 6.185 16.97 3 12 3zm0 2c3.87 0 7 2.355 7 5.115 0 1.682-.913 3.21-2.416 4.27l-.584.37.15.53.5 1.77H7.35l.5-1.77.15-.53-.584-.37C5.913 13.325 5 11.797 5 10.115 5 7.355 8.13 5 12 5z"/></svg>'); }
+    .menu button:nth-child(2)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M21 7V5H3v2h18zm0 4v-2H3v2h18zm0 4v-2H3v2h18zm0 4v-2H3v2h18z"/></svg>'); }
+    .menu button:nth-child(3)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>'); }
+    .menu button:nth-child(4)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'); }
+    .menu button:nth-child(5)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>'); }
+    .menu button:nth-child(6)::after { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235a4d00"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>'); }
+
+    /* Responsive for small screens */
+    @media (max-width: 400px) {
+      .menu {
+        width: 90vw;
+      gap: 15px;
+      margin-bottom: 50px;
+      padding: 0 10px;
+      box-sizing: border-box;
+      max-width: 300px;
+      margin: 0 auto 50px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    }
+      .menu button {
+        font-size: 1.2em;
+        padding: 15px 20px;
+      }
+      header {
+        font-size: 2.2em;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <a href="index.html" class="logo-link" aria-label="Solara home">
+    <img src="solara-logo.png" alt="Solara Logo" class="logo" />
+  </a>
+
+  <!-- Page title -->
+  <header>What would you like to do today?</header>
+
+  <!-- Menu buttons -->
+  <div class="menu">
+    <button onclick="location.href='breathing.html'">Breathing Exercises</button>
+    <button onclick="location.href='minigame.html'">Mini Game</button>
+    <button onclick="location.href='affirmations.html'">Random Affirmations</button>
+    <button onclick="location.href='moodtracker.html'">Mood Tracker</button>
+    <button onclick="location.href='sounds.html'">Calming Sounds</button>
+    <button onclick="location.href='vent.html'">Need to vent?</button>
+  </div>
+  </div>
+
+  <!-- Bubbles behind content -->
+  <div class="bubbles-container" aria-hidden="true" id="bubbles-container"></div>
+
+  <script>
+    const container = document.getElementById('bubbles-container');
+
+    const colors = ['yellow', 'green'];
+    const bubbleCount = 20;
+
+    for (let i = 0; i < bubbleCount; i++) {
+      const bubble = document.createElement('div');
+      const size = Math.random() * 80 + 20;
+      const delay = Math.random() * 20;
+      const duration = Math.random() * 20 + 15;
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      bubble.classList.add('bubble', color);
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.top = `${top}%`;
+      bubble.style.left = `${left}%`;
+      bubble.style.animationDuration = `${duration}s`;
+      bubble.style.animationDelay = `${delay}s`;
+
+      container.appendChild(bubble);
+    }
+  </script>
+</body>
+</html>

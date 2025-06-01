@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solara – Breathing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #FFFFC5;
+      font-family: 'Comic Neue', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      color: #444;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      z-index: 2;
+    }
+
+    .breathing-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      margin-top: 40px;
+      z-index: 2;
+    }
+
+    .circle {
+      width: 200px;
+      height: 200px;
+      background-color: #fdf2a5;
+      border-radius: 50%;
+      transform: scale(1);
+      box-shadow: 0 0 30px rgba(250, 230, 100, 0.4);
+      transition: transform 3s ease-in-out;
+    }
+
+    .breathing-text {
+      margin-top: 60px;
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #555;
+      height: 1.5em;
+      transition: all 0.5s ease-in-out;
+      opacity: 1;
+    }
+
+    .text-fade {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    .logo-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      text-decoration: none;
+      z-index: 3;
+    }
+
+    .logo {
+      height: 100px;
+      width: auto;
+      cursor: pointer;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.2;
+      z-index: 0;
+      animation: float 30s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); }
+      100% { transform: translateY(-100vh) translateX(20vw); }
+    }
+
+    /* Back button styling */
+    .back-button {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background-color: #fdf2a5;
+      border: 2px solid #ccc;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1em;
+      color: #333;
+      text-decoration: none;
+      z-index: 3;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #fff89a;
+    }
+
+    /* Music player styles */
+    .music-player {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #fdf2a5;
+      border-radius: 20px;
+      padding: 12px 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: default;
+      user-select: none;
+      color: #5a4d00;
+      font-family: 'Comic Neue', cursive;
+      z-index: 10;
+      border: 2px solid #f0c933;
+    }
+
+    .music-player button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2em;
+      color: #5a4d00;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    .music-player button:hover {
+      color: #403800;
+    }
+
+    .music-player select {
+      border-radius: 10px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 1em;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 600;
+      color: #5a4d00;
+      cursor: pointer;
+      box-shadow: inset 0 0 10px rgba(255 255 255 / 0.7);
+      outline: none;
+      transition: box-shadow 0.3s ease;
+      background-color: #fff;
+    }
+
+    .music-player select:hover, 
+    .music-player select:focus {
+      box-shadow: 0 0 10px #f0c933;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="logo-link">
+    <img src="solara-logo.png" alt="Solara Logo" class="logo" />
+  </a>
+
+  <!-- Back Button -->
+  <a href="main.html" class="back-button">← Back</a>
+
+  <h1>Breathe with Solara</h1>
+
+  <!-- Background bubbles -->
+  <div class="bubble" style="width: 80px; height: 80px; background-color: #d4ffc5; left: 10%; animation-delay: 0s;"></div>
+  <div class="bubble" style="width: 100px; height: 100px; background-color: #ffffa5; left: 30%; animation-delay: 5s;"></div>
+  <div class="bubble" style="width: 60px; height: 60px; background-color: #d4ffc5; left: 50%; animation-delay: 10s;"></div>
+  <div class="bubble" style="width: 90px; height: 90px; background-color: #ffffa5; left: 70%; animation-delay: 15s;"></div>
+  <div class="bubble" style="width: 50px; height: 50px; background-color: #d4ffc5; left: 85%; animation-delay: 20s;"></div>
+
+  <div class="breathing-container">
+    <div class="circle" id="circle"></div>
+    <div class="breathing-text" id="breathing-text">Breathe in...</div>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player" id="music-player">
+    <button id="music-toggle" aria-label="Toggle music">🎵</button>
+    <select id="music-select" aria-label="Choose music track">
+      <option value="" selected disabled>Select audio...</option>
+      <option value="nature-sounds.mp3">Nature Sounds</option>
+      <option value="ocean-waves.mp3">Ocean Waves</option>
+      <option value="rain.mp3">Rainfall</option>
+      <option value="soothing-hum.mp3">Soothing Hum</option>
+    </select>
+  </div>
+
+  <audio id="audio-player" loop></audio>
+
+  <script>
+    const text = document.getElementById("breathing-text");
+    const circle = document.getElementById("circle");
+    
+    const phases = [
+      { text: "Breathe in...",  scale: 1.5, duration: 3000 },
+      { text: "Hold...",         scale: 1.5, duration: 3000 },
+      { text: "Breathe out...",  scale: 1,   duration: 3000 },
+      { text: "Hold...",         scale: 1,   duration: 3000 }
+    ];
+    
+    let index = 0;
+    
+    function runPhase() {
+      const phase = phases[index];
+      text.classList.add("text-fade");
+      setTimeout(() => {
+        text.textContent = phase.text;
+        text.classList.remove("text-fade");
+      }, 300);
+      
+      circle.style.transitionDuration = `${phase.duration}ms`;
+      circle.style.transform = `scale(${phase.scale})`;
+      
+      index = (index + 1) % phases.length;
+      setTimeout(runPhase, phase.duration);
+    }
+    
+    runPhase();
+
+    // Music player functionality
+    const musicToggleBtn = document.getElementById('music-toggle');
+    const musicSelect = document.getElementById('music-select');
+    const audioPlayer = document.getElementById('audio-player');
+
+    let isPlaying = false;
+
+    musicToggleBtn.addEventListener('click', () => {
+      if (!audioPlayer.src) {
+        alert('Please select a music track first!');
+        return;
+      }
+      if (isPlaying) {
+        audioPlayer.pause();
+        musicToggleBtn.textContent = '🎵';
+        isPlaying = false;
+      } else {
+        audioPlayer.play();
+        musicToggleBtn.textContent = '🔊';
+        isPlaying = true;
+      }
+    });
+
+    musicSelect.addEventListener('change', () => {
+      const selected = musicSelect.value;
+      if (!selected) return;
+
+      audioPlayer.src = selected;
+      audioPlayer.play();
+      musicToggleBtn.textContent = '🔊';
+      isPlaying = true;
+    });
+  </script>
+</body>
+</html>
